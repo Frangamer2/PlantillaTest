@@ -5,128 +5,49 @@ using UnityEngine;
 
 public class Controller_Player : MonoBehaviour
 {
-    public float speed = 5;
+    public float velocidad = 5f;
+    public GameObject projectilePrefab; // Prefab del proyectil
+    public Transform firePoint; // Punto desde donde se dispara el proyectil
 
-    private Rigidbody rb;
-
-    public GameObject projectile;
-    public GameObject doubleProjectile;
-    public GameObject missileProjectile;
-    public GameObject laserProjectile;
-    public GameObject option;
-    public int powerUpCount=0;
-
-    internal bool doubleShoot;
-    internal bool missiles;
-    internal float missileCount;
-    internal float shootingCount=0;
-    internal bool forceField;
-    internal bool laserOn;
-
-    public static bool lastKeyUp;
-
-    public delegate void Shooting();
-    public event Shooting OnShooting;
-
-    private Renderer render;
-
-    internal GameObject laser;
-
-    //private List<Controller_Option> options;
-    
-    public static Controller_Player _Player;
-    
-    private void Awake()
+    void Update()
     {
-        if (_Player == null)
+        Move();
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            _Player = GameObject.FindObjectOfType<Controller_Player>();
-            if (_Player == null)
-            {
-                GameObject container = new GameObject("Player");
-                _Player = container.AddComponent<Controller_Player>();
-            }
-            //Debug.Log("Player==null");
-            DontDestroyOnLoad(_Player);
-        }
-        else
-        {
-            //Debug.Log("Player=!null");
-            //this.gameObject.SetActive(false);
-            Destroy(this.gameObject);
+            Shoot();
         }
     }
 
-
-    private void Start()
+    void Move()
     {
-        rb = GetComponent<Rigidbody>();
-        render = GetComponent<Renderer>();
-        powerUpCount = 0;
-        doubleShoot = false;
-        missiles = false;
-        laserOn = false;
-        forceField = false;
-        //options = new List<Controller_Option>();
-    }
+        float moveHorizontal = Input.GetAxis("Horizontal"); // A/D o flechas izquierda/derecha
+        float moveVertical = Input.GetAxis("Vertical"); // W/S o flechas arriba/abajo
 
-    private void Update()
-    {
-        CheckForceField();
-        ActionInput();
-    }
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        transform.Translate(movement * velocidad * Time.deltaTime, Space.World);
 
-    private void CheckForceField()
-    {
-        if (forceField)
+        // Rotar al jugador en la dirección del movimiento
+        if (movement != Vector3.zero)
         {
-            render.material.color = Color.blue;
-        }
-        else
-        {
-            render.material.color = Color.red;
+            Quaternion toRotation = Quaternion.LookRotation(movement, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, 360 * Time.deltaTime);
         }
     }
 
-    public virtual void FixedUpdate()
+    void Shoot()
     {
-        Movement();
-    }
+        // Crea el proyectil en la posición del firePoint
+        GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
 
-    public virtual void ActionInput()
-    {
-        missileCount -= Time.deltaTime;
-        shootingCount -= Time.deltaTime;
-        if (Input.GetKey(KeyCode.O) && shootingCount < 0)
+        // Obtiene el Rigidbody del proyectil y aplica una fuerza
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            if (OnShooting != null)
-            {
-                OnShooting();
-            }
-
-
-            Instantiate(projectile, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-
-
-            shootingCount = 0.1f;
+            rb.AddForce(firePoint.forward * 500f); // Ajusta la fuerza según sea necesario
         }
     }
-
-
-    private void Movement()
+    public void IncreaseSpeed(float amount)
     {
-        float inputX = Input.GetAxis("Horizontal");
-        float inputY = Input.GetAxis("Vertical");
-        Vector3 movement = new Vector3(speed* inputX,speed * inputY);
-        rb.velocity = movement;
-        if (Input.GetKey(KeyCode.W))
-        {
-            lastKeyUp = true;
-        }else
-        if (Input.GetKey(KeyCode.S))
-        {
-            lastKeyUp = false;
-        }
+        velocidad += amount;
     }
-
 }

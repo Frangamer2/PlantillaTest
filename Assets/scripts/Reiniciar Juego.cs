@@ -1,31 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ReiniciarJuego : MonoBehaviour
 {
-    static void Main(string[] args)
+    void Update()
     {
-        bool juegoActivo = true;
-
-        while (juegoActivo)
+        // Verifica si se presiona la tecla 'R'
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            Console.WriteLine("Juego en curso. Presiona 'r' para reiniciar o 'q' para salir.");
-
-            ConsoleKeyInfo tecla = Console.ReadKey();
-
-            if (tecla.Key == ConsoleKey.R)
-            {
-                Console.Clear();
-                Console.WriteLine("Juego reiniciado.");
-            }
-            else if (tecla.Key == ConsoleKey.Q)
-            {
-                juegoActivo = false;
-            }
+            RestartCurrentScene();
         }
+    }
 
-        Console.WriteLine("Juego terminado. Presiona cualquier tecla para salir.");
-        Console.ReadKey();
+    void RestartCurrentScene()
+    {
+        // Obtiene el nombre de la escena actual y la recarga
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
     }
 }

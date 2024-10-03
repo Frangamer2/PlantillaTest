@@ -41,4 +41,32 @@ public class Projectile : MonoBehaviour
 
     }
 
+    public int damage = 10; // Daño del proyectil
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy")) // Asegúrate de que el enemigo tenga el tag "Enemy"
+        {
+            Enemigo enemy = other.GetComponent<Enemigo>(); // Obtén el componente del enemigo
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage); // Llama al método para causar daño
+            }
+            Destroy(gameObject); // Destruye el proyectil después de impactar
+        }
+
+        Debug.Log("Colisión con: " + other.name); // Verifica con qué objeto está colisionando
+        if (other.CompareTag("Enemy"))
+        {
+            Debug.Log("Impacto en enemigo: " + other.name);
+            Enemigo enemy = other.GetComponent<Enemigo>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+                Debug.Log("Daño causado: " + damage);
+            }
+            Destroy(gameObject);
+        }
+    }
+
 }

@@ -96,7 +96,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.9555495, b: 0, a: 1}
+      key0: {r: 0.5188679, g: 0.022027401, b: 0.062788114, a: 1}
       key1: {r: 0, g: 1, b: 0.08760595, a: 1}
       key2: {r: 1, g: 0.740566, b: 0.740566, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -148,8 +148,8 @@ GameObject:
   - component: {fileID: 3214431295118183811}
   - component: {fileID: 290708452151455859}
   - component: {fileID: 8429021693427251867}
-  - component: {fileID: 7184815875005059685}
   - component: {fileID: 5626232081498759806}
+  - component: {fileID: 6792772113453153830}
   m_Layer: 3
   m_Name: proyectil
   m_TagString: Untagged
@@ -167,7 +167,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: -0, z: 1.394}
-  m_LocalScale: {x: 0.2797878, y: 0.1322109, z: 0.34593213}
+  m_LocalScale: {x: 0.2797878, y: 0.05934479, z: 0.57707304}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4546444699525877854}
@@ -238,7 +238,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -246,22 +246,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7184815875005059685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2759410206484423927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5bfa021e4483e34f9c0e6fca8f6b52c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  xLimit: 30
-  yLimit: 20
-  projectileSpeed: 20
-  rb: {fileID: 5626232081498759806}
 --- !u!54 &5626232081498759806
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -289,3 +273,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6792772113453153830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2759410206484423927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79ad9decee8d29940b8b4425602c4520, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xLimit: 30
+  yLimit: 20
+  damage: 10
